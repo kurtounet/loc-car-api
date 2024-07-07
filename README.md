@@ -1,6 +1,6 @@
 # Application de location de véhicules
 
-## 1.Création du projet Symfony +installtion des bundles
+## 1.Création du projet Symfony +installation des bundles
 
 1. **Création du projet Symfony (fait)**:
 
