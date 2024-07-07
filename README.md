@@ -83,7 +83,13 @@ symfony console lexik:jwt:generate-keypair
   ```bash
   symfony console lexik:jwt:generate-token
   ```
-  
+
+##### Installation de fakerphp/faker
+
+  ```bash
+ composer require fakerphp/faker
+  ```
+
 ## 2. **Création de la base de données**
 
    ```bash

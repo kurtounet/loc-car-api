@@ -24,10 +24,10 @@ class Vehicl
     #[ORM\Column(length: 255)]
     private ?string $model = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 4)]
     private ?string $year = null;
 
-    #[ORM\Column(length: 10)]
+    #[ORM\Column(length: 15)]
     private ?string $licenseplate = null;
 
     #[ORM\Column(type: 'integer')]
@@ -48,9 +48,16 @@ class Vehicl
     #[ORM\OneToMany(targetEntity: Rental::class, mappedBy: 'vehicle')]
     private Collection $rentals;
 
+    /**
+     * @var Collection<int, Agence>
+     */
+    #[ORM\ManyToMany(targetEntity: Agence::class, inversedBy: 'vehicls')]
+    private Collection $Agency;
+
     public function __construct()
     {
         $this->rentals = new ArrayCollection();
+        $this->Agency = new ArrayCollection();
     }
 
 
@@ -181,6 +188,30 @@ class Vehicl
                 $rental->setVehicle(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Agence>
+     */
+    public function getAgency(): Collection
+    {
+        return $this->Agency;
+    }
+
+    public function addAgency(Agence $agency): static
+    {
+        if (!$this->Agency->contains($agency)) {
+            $this->Agency->add($agency);
+        }
+
+        return $this;
+    }
+
+    public function removeAgency(Agence $agency): static
+    {
+        $this->Agency->removeElement($agency);
 
         return $this;
     }

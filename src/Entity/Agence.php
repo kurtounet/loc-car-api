@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\AgenceRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AgenceRepository::class)]
@@ -33,8 +35,19 @@ class Agence
     #[ORM\Column(length: 255)]
     private ?string $city = null;
 
-    #[ORM\Column(length: 10, nullable: true)]
+    #[ORM\Column(length: 20, nullable: true)]
     private ?string $phoneNumber = null;
+
+    /**
+     * @var Collection<int, Vehicl>
+     */
+    #[ORM\ManyToMany(targetEntity: Vehicl::class, mappedBy: 'Agency')]
+    private Collection $vehicls;
+
+    public function __construct()
+    {
+        $this->vehicls = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -121,6 +134,33 @@ class Agence
     public function setPhoneNumber(?string $phoneNumber): static
     {
         $this->phoneNumber = $phoneNumber;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Vehicl>
+     */
+    public function getVehicls(): Collection
+    {
+        return $this->vehicls;
+    }
+
+    public function addVehicl(Vehicl $vehicl): static
+    {
+        if (!$this->vehicls->contains($vehicl)) {
+            $this->vehicls->add($vehicl);
+            $vehicl->addAgency($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVehicl(Vehicl $vehicl): static
+    {
+        if ($this->vehicls->removeElement($vehicl)) {
+            $vehicl->removeAgency($this);
+        }
 
         return $this;
     }
