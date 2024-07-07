@@ -1,108 +1,150 @@
+# Application de location de véhicules
+
+## 1.Création du projet Symfony +installtion des bundles
+
 1. **Création du projet Symfony (fait)**:
-   ```
-   symfony new loc-car-api --version=6.4
-   ```
+
+```bash
+symfony new loc-car-api --version=6.4
+```
+
 2. **Installation de doctrine symfony/orm-pack (fait)**
 
-```
+```bash
 composer require symfony/orm-pack
 ```
 
 3. **Installation orm-fixtures (fait)**
 
-```
+```bash
 composer require --dev orm-fixtures
 ```
 
-4. **Installation du  MakerBundle (fait)** :
-   ```
-   composer require symfony/maker-bundle --dev
-   ```
-5.**Installation du  profiler (fait)** :
+3.1 **Installation symfony/asset (fait)**
+
+```bash
+composer require symfony/asset
 ```
+
+4. **Installation du  MakerBundle (fait)** :
+
+```bash
+composer require symfony/maker-bundle --dev
+```
+
+5. **Installation du  profiler (fait)** :
+
+```bash
 composer require --dev profiler
 ```
 
 6. **Installer symfony/security-bundle (fait)**
 
-```
+```bash
 composer require symfony/security-bundle
 ```
 
 7. **Installation API Platform (fait)** :
-   ```
-   composer require api-platform/core
-   ```
 
-8. **Installer Password-hasher Bundle (fait)** : <https://symfony.com/doc/current/security/passwords.html>
-
+```bash
+composer require api-platform/core
 ```
+
+8. **Installer Password-hasher Bundle (fait)** :
+
+><https://symfony.com/doc/current/security/passwords.html>
+
+```bash
 composer require symfony/password-hasher
 ```
 
-7. **Installer JWT Authentication Bundle** : <https://api-platform.com/docs/core/jwt/>
+9. **Installer JWT Authentication Bundle** : <https://api-platform.com/docs/core/jwt/>
 
-   ```bash
-   composer require lexik/jwt-authentication-bundle
-
+```bash
+composer require lexik/jwt-authentication-bundle
  ```
- lexik
-  
- ```lexik:jwt:check-config ```                    Checks that the bundle is properly configured.  
-  ```lexik:jwt:generate-keypair ```                Generate public/private keys for use in your application.
-  ```lexik:jwt:generate-token```                   Generates a JWT token for a given user.
 
+### lexik
 
+##### Checks that the bundle is properly configured
 
-
-
-
-
-
-
-composer require symfony/twig-bundle
-
-7. **Installer JWT Authentication Bundle** : <https://api-platform.com/docs/core/jwt/>
-
-   ```bash
-   composer require lexik/jwt-authentication-bundle 2.19
-
+ ```bash
+ symfony console lexik:jwt:check-config 
  ```
- lexik
+
+##### Generate public/private keys for use in your application
+
+  ```bash
+symfony console lexik:jwt:generate-keypair 
+  ```
+
+##### Generates a JWT token for a given user
+
+  ```bash
+  symfony console lexik:jwt:generate-token
+  ```
   
- ```lexik:jwt:check-config ```                    Checks that the bundle is properly configured.  
-  ```lexik:jwt:generate-keypair ```                Generate public/private keys for use in your application.
-  ```lexik:jwt:generate-token```                   Generates a JWT token for a given user.
+## 2. **Création de la base de données**
 
-
-
-
-
-## 2
-5. **Créer la base de données** :
    ```bash
    symfony console doctrine:database:create
    ```
 
-6. **Créer une entité User** :
+## 3 Création des entités
 
-   ```bash
+#### user + #[ApiResource()] (fait)
+
+```bash
    symfony console make:user
-   ```
+```
 
-7. **Générer une migration** :
+#### vehicl + #[ApiResource()] (fait)
+
+```bash
+   symfony console make:entity vehicl
+```
+
+#### Rental + #[ApiResource()] (fait)
+
+```bash
+   symfony console make:entity Rental
+```
+
+#### Payment + #[ApiResource()] (fait)
+
+```bash
+   symfony console make:entity Payment
+```
+
+#### Agency + #[ApiResource()] (fait)
+
+```bash
+   symfony console make:entity Agency
+```
+
+#### VehicleAgency ManyToMany (a faire)
+
+```bash
+   symfony console make:entity VehicleAgency
+```
+
+#### Review (à voir)
+
+### 4 **Générer la migration**
 
    ```bash
    symfony console make:migration
    ```
 
-8.**Pour appliquer les migrations:
+### 5 **Pour appliquer les migrations**
 
 ```bash
 symfony console doctrine:migrations:migrate
 ```
 
-9.** Pour hasher le mot de passge du 1ère admin
+### 6. Création 1er Admin
+
+ Pour hasher le mot de passge du 1ère admin
 
 ```bash
 symfony console security:hash-password 
