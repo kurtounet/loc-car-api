@@ -32,8 +32,8 @@ class AppFixtures extends Fixture
             $agence->setName($faker->company)
                 ->setAdress($faker->streetAddress)
                 ->setNumAdress($faker->buildingNumber)
-                ->setZipcode("00000")
-                ->setCountry($faker->countryCode)
+                ->setZipcode($faker->postcode)
+                ->setCountry('France')
                 ->setCity($faker->city)
                 ->setPhoneNumber($faker->phoneNumber);
             $manager->persist($agence);
