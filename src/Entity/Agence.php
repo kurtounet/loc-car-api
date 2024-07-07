@@ -7,37 +7,48 @@ use App\Repository\AgenceRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: AgenceRepository::class)]
-#[ApiResource()]
+#[ApiResource(
+    normalizationContext: ['groups' => ['agence:read']],
+    denormalizationContext: ['groups' => ['agence:write']],
+)]
 class Agence
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['agence:read', 'agence:write'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['agence:read', 'agence:write'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['agence:read', 'agence:write'])]
     private ?string $adress = null;
 
     #[ORM\Column]
+    #[Groups(['agence:read', 'agence:write'])]
     private ?int $numAdress = null;
 
-    #[ORM\Column(length: 5)]
+    #[ORM\Column(length: 10)]
+    #[Groups(['agence:read', 'agence:write'])]
     private ?string $zipcode = null;
 
-    #[ORM\Column(length: 5)]
+    #[ORM\Column(length: 10)]
+    #[Groups(['agence:read', 'agence:write'])]
     private ?string $country = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 50)]
+    #[Groups(['agence:read', 'agence:write'])]
     private ?string $city = null;
 
     #[ORM\Column(length: 20, nullable: true)]
+    #[Groups(['agence:read', 'agence:write'])]
     private ?string $phoneNumber = null;
-
     /**
      * @var Collection<int, Vehicl>
      */

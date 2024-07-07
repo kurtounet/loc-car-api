@@ -1,0 +1,41 @@
+meta {
+  name: PUT users
+  type: http
+  seq: 4
+}
+
+put {
+  url: https://127.0.0.1:8000/api/users/22
+  body: json
+  auth: bearer
+}
+
+headers {
+  Content-Type: application/ld+json
+}
+
+auth:bearer {
+  token: {{jwt_token}}
+}
+
+body:json {
+  {
+        
+        "email": "admin4@gmail.com",
+        "roles": [
+          "ROLE_ADMIN"
+        ],
+        "firstname": "Jean2",
+        "lastname": "Dupont2",
+        "password": "Dupont",
+        "mobilephone": "0612345678",
+        "phone": "0156789012",
+        "dateborn": "1985-10-15T00:00:00+00:00",
+        "numadrs": 123,
+        "adrs": "Rue de l'Exemple",
+        "city": "Limoges",
+        "zipcode": "87000",
+        "country": "France",
+        "meansPayment": []
+      }
+}

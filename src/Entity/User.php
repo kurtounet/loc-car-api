@@ -43,7 +43,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $lastname = null;
 
     #[ORM\Column(length: 20, nullable: true)]
-    private ?string $phoneNumber  = null;
+    private ?string $phoneNumber = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $adress = null;
@@ -51,7 +51,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 5, nullable: true)]
     private ?string $numadress = null;
 
-    #[ORM\Column(length: 5, nullable: true)]
+    #[ORM\Column(length: 10, nullable: true)]
     private ?string $zipcode = null;
 
     #[ORM\Column(length: 50, nullable: true)]
@@ -170,14 +170,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getphoneNumber (): ?string
+    public function getphoneNumber(): ?string
     {
-        return $this->phoneNumber ;
+        return $this->phoneNumber;
     }
 
-    public function setphoneNumber (?string $phoneNumber ): static
+    public function setphoneNumber(?string $phoneNumber): static
     {
-        $this->phoneNumber  = $phoneNumber ;
+        $this->phoneNumber = $phoneNumber;
 
         return $this;
     }

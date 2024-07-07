@@ -39,7 +39,7 @@ class AppFixtures extends Fixture
             $manager->persist($agence);
             $agencies[] = $agence;
         }
-
+        echo "Agence created" . "\n";
         // Create Users
 
         $user = new User();
@@ -59,10 +59,12 @@ class AppFixtures extends Fixture
         for ($i = 0; $i < 20; $i++) {
             $user = new User();
             echo $faker->phoneNumber . "\n";
-            $user->setFirstName($faker->firstName)
-                ->setLastName($faker->lastName)
-                ->setEmail($faker->email)
-                ->setPassword($faker->lastName)
+            $firstName = $faker->firstName;
+            $lastName = $faker->lastName;
+            $user->setFirstName($firstName)
+                ->setLastName($lastName)
+                ->setEmail($firstName . "." . $lastName . '@' . $faker->randomElement(['gmail.com', 'yahoo.fr', 'hotmail.fr', 'outlook.fr']))
+                ->setPassword($lastName)
                 ->setphoneNumber($faker->phoneNumber)
                 ->setAdress($faker->streetAddress)
                 ->setNumAdress($faker->buildingNumber)
@@ -75,23 +77,31 @@ class AppFixtures extends Fixture
             $manager->persist($user);
             $users[] = $user;
         }
-
+        echo "Users created" . "\n";
         // Create Vehicles
         $vehicles = [];
         for ($i = 0; $i < 50; $i++) {
             $vehicle = new Vehicl();
-            $vehicle->setBrand($faker->randomElement(['Toyota', 'Ford', 'Chevrolet']))
-                ->setModel($faker->randomElement(['Corolla', 'Mustang', 'Camero']))
+            $model = [
+                'brand' => $faker->randomElement(['Toyota', 'Ford', 'Chevrolet']),
+                'model' => $faker->randomElement(['Corolla', 'Mustang', 'Camero']),
+                'year' => $faker->year,
+            ];
+            $vehicle->setBrand($model['brand'])
+                ->setModel($model['model'])
                 ->setLicensePlate($this->genererPlaqueImmatriculation())
                 ->setMileage($faker->numberBetween(10000, 100000))
                 ->setFuelType($faker->randomElement(['Essence', 'Diesel', 'Electrique']))
                 ->setStatus($faker->randomElement(['disponible', 'indisponible']))
                 ->setPricePerDay($faker->numberBetween(50, 300))
-                ->setYear($faker->year);
+                ->setImage($model['brand'] . '-' . $model['model'] . '-' . $model['year'] . '.png')
+                ->setDescription($faker->text(100))
+                ->setYear($model['year']);
             $manager->persist($vehicle);
             $vehicles[] = $vehicle;
         }
 
+        echo "Vehicles created" . "\n";
         // Create Rentals
         for ($i = 0; $i < 100; $i++) {
             $startDate = $faker->dateTimeThisYear;
@@ -116,6 +126,8 @@ class AppFixtures extends Fixture
             $rental->addPayment($payment);
             $manager->persist($payment);
         }
+
+        echo "Rentals created" . "\n";
         $manager->flush();
     }
     public function genererPlaqueImmatriculation()

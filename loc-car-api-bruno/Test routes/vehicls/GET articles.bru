@@ -1,0 +1,15 @@
+meta {
+  name: GET vehicls
+  type: http
+  seq: 1
+}
+
+get {
+  url: https://127.0.0.1:8000/api/vehicls
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{jwt_token}}
+}

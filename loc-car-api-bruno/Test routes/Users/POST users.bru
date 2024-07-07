@@ -1,0 +1,53 @@
+meta {
+  name: POST users
+  type: http
+  seq: 3
+}
+
+post {
+  url: https://127.0.0.1:8000/api/users
+  body: json
+  auth: bearer
+}
+
+headers {
+  Content-Type: application/ld+json
+}
+
+auth:bearer {
+  token: {{jwt_token}}
+}
+
+body:json {
+  
+  { 
+    
+    "email": "user@gmail.com",
+    "roles": [    "ROLE_ADMIN"  ],
+    "firstname": "user",
+    "lastname": "user",
+    "password": "user",
+    "mobilephone": "0612345678",
+    "phone": "0156789012",
+    "dateborn": "1985-10-15T00:00:00+00:00",
+    "numadrs": 123,
+    "adrs": "Rue de l'Exemple",
+    "city": "TestVille",
+    "zipcode": "87000",
+    "country": "France"
+  }
+}
+
+body:text {
+  {
+    "@context": "/api/contexts/Article",
+    "@type": "Article",
+    "name": "chemise",
+    "urlimage": "https://via.placeholder.com/500x500",
+    "category": "/api/categories/17"
+  }
+}
+
+body:multipart-form {
+  : 
+}

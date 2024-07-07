@@ -8,9 +8,15 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Serializer\Attribute\MaxDepth;
 
-#[ApiResource()]
 #[ORM\Entity(repositoryClass: VehiclRepository::class)]
+#[ApiResource(
+    normalizationContext: ['groups' => ['vehicl:read']],
+    denormalizationContext: ['groups' => ['vehicl:write']],
+)]
+
 class Vehicl
 {
     #[ORM\Id]
@@ -19,27 +25,35 @@ class Vehicl
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['vehicl:read', 'vehicl:write'])]
     private ?string $brand = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['vehicl:read', 'vehicl:write'])]
     private ?string $model = null;
 
     #[ORM\Column(length: 4)]
+    #[Groups(['vehicl:read', 'vehicl:write'])]
     private ?string $year = null;
 
     #[ORM\Column(length: 15)]
+    #[Groups(['vehicl:read', 'vehicl:write'])]
     private ?string $licenseplate = null;
 
     #[ORM\Column(type: 'integer')]
+    #[Groups(['vehicl:read', 'vehicl:write'])]
     private ?int $mileage = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['vehicl:read', 'vehicl:write'])]
     private ?string $fuelType = null;
 
     #[ORM\Column(length: 50)]
+    #[Groups(['vehicl:read', 'vehicl:write'])]
     private ?string $status = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 5, scale: 2)]
+    #[Groups(['vehicl:read', 'vehicl:write'])]
     private ?string $pricePerDay = null;
 
     /**
@@ -47,12 +61,19 @@ class Vehicl
      */
     #[ORM\OneToMany(targetEntity: Rental::class, mappedBy: 'vehicle')]
     private Collection $rentals;
-
     /**
      * @var Collection<int, Agence>
      */
     #[ORM\ManyToMany(targetEntity: Agence::class, inversedBy: 'vehicls')]
     private Collection $Agency;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['vehicl:read', 'vehicl:write'])]
+    private ?string $image = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['vehicl:read', 'vehicl:write'])]
+    private ?string $description = null;
 
     public function __construct()
     {
@@ -212,6 +233,30 @@ class Vehicl
     public function removeAgency(Agence $agency): static
     {
         $this->Agency->removeElement($agency);
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): static
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): static
+    {
+        $this->description = $description;
 
         return $this;
     }
